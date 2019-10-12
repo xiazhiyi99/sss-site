@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="{%url 'home:home_page'%}">sss</a>
+<hr/>
+<h>Catalog</h>
+
+<table>
+    <tr>
+        <th>Project Name</th>
+        <th>pub date</th>
+        <th>submission</th>
+        <th>state</th>
+    </tr>
+    {%for rank in rank_list%}
+    <tr>
+        <td><a href="/rank/{{rank.id}}">{{rank.title}}</a></td>
+        <td>{{rank.pub_date}}</td>
+        <td>{{rank.submission}}</td>
+        <td>{{rank.state}}</td>
+    </tr>
+    {%endfor%}
+</table>
+</body>
+</html>

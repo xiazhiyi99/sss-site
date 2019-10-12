@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/rank/">Dashboard</a>
+<hr/>
+<h>{{rank_title}}</h>
+<p>
+    {{rank_abstract}}
+</p>
+
+{%if message%}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+{%endif%}
+<table>
+    <tr>
+        <th>rank</th>
+        <th>Publisher</th>
+        <th>score</th>
+        <th>pub time</th>
+    </tr>
+    {%for idx,record in record_list%}
+    <tr>
+        <td>{{idx}}</td>
+        <td><a>{{record.publisher}}</a></td>
+        <td>{{record.score}}</td>
+        <td>{{record.pub_date}}</td>
+    </tr>
+    {%endfor%}
+</table>
+
+<a href="{%url 'rank:submit_page' rank_id%}"> SUBMIT</a>
+</body>
+</html>
