@@ -1,10 +1,14 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.models import User
 import os
 import sys
 from .models import *
 from django.utils import timezone
+import importlib
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Create your views here.
 def dashboard(request):
     rank_list = Rank.objects.order_by('pub_date')
@@ -14,16 +18,62 @@ def dashboard(request):
     return render(request, 'rank/index.html', context)
 
 def rank_page(request, rank_id):
-    record_list = Record.objects.filter(rank_id=rank_id)
-    record_list = [(idx+1, r) for idx,r in enumerate(record_list.order_by('score'))]
     rank = Rank.objects.get(pk=rank_id)
-    context = {'rank_title':rank.title,
-               'rank_abstract':rank.abstract,
+
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            File = request.FILES.get("file", None)
+
+            if not File:
+                messages.error(request, "no files for upload!")
+
+            else:#成功上传文件
+                # 测试样例
+                sys.path.append(os.path.join(BASE_DIR, "test"))
+                test_utils = importlib.import_module( "test_" + str(rank_id) + ".test")
+                feedback = test_utils.test(File)
+
+                if feedback and (type(feedback) != str ):  # 评测成功 否则返回错误信息
+                    messages.success(request, "upload over! Your score: " + str(feedback))
+
+                    # 产生记录
+                    Record.objects.create(
+                        publisher=User.objects.get(pk=request.user.id),
+                        score=feedback,
+                        rank=rank,
+                        pub_date=timezone.now(),
+                    )
+                    rank.submission += 1
+                    return redirect("/rank/" + str(rank_id))
+                else:
+                    messages.error(request, feedback)
+
+        else:#未登录
+            messages.error(request, ' Please login first! ')
+
+    record_list = Record.objects.filter(rank_id=rank_id)
+    record_list = [(idx+1, r) for idx,r in enumerate(record_list.order_by('-score'))]
+
+
+    context = {'rank':rank,
                'record_list':record_list,
-               'rank_id':rank_id,
-               'message':messages}
+               'message':messages,}
     return render(request,'rank/rank.html', context)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+################# abolished
 def submit_page(request, rank_id):
     rank = Rank.objects.get(pk=rank_id)
     if rank.state=='close':

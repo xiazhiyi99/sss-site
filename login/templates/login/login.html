@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'login/css/styles.css'%}">
+    <h1 class="my-con1">Login Page</h1>
+    {% if message %}
+    {{ message }}
+    {% endif %}
+    <div class="form-group">
+        <br/>
+        <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-line">
+                    {{ field.errors }}
+                    <a style="color:#FFF">{{ field.label_tag }} </a>{{ field }}
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="btn">
+                <input type="submit" value="Login">
+            </div>
+        </form>
+        <br/>
+    </div>
+
+{% endblock %}

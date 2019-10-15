@@ -1,0 +1,24 @@
+.form-group {
+    color:#000;
+    display:block;
+    margin:auto;
+    width:300px;
+    background: url(../images/bg.jpg) top left repeat;//背景色
+	border-width: 3px;	//边缘的宽度，如果要分别设置可以这样：border-width: 15px 5px 15px 5px;依次为上、右、下、左
+	border-style: solid;
+	border-radius: 20px;	//圆角的大小
+	border-color: #FFF;
+}
+
+.form-line {
+    color:#000;
+    margin:auto;
+    padding:15px;
+    text-align:center;
+}
+.btn {
+    color:#000;
+    display:block;
+    margin:auto;
+    text-align:center;
+}

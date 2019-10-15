@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a href="/rank/">Dashboard</a>
-<hr/>
-<h>{{rank_title}}</h>
-<p>
-    {{rank_abstract}}
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block guide%}
+
+{% endblock%}
+
+{% block content%}
+
+<link rel="stylesheet" type="text/css" href="{%static 'rank/css/styles.css'%}">
+
+<h2 style="text-align:center;">{{rank.title}}</h2>
+
+<p style="text-align:center;">
+    {{rank.abstract}}
 </p>
 
 {%if message%}
@@ -19,7 +23,7 @@
         {% endfor %}
     </script>
 {%endif%}
-<table>
+<table class="table">
     <tr>
         <th>rank</th>
         <th>Publisher</th>
@@ -29,13 +33,29 @@
     {%for idx,record in record_list%}
     <tr>
         <td>{{idx}}</td>
-        <td><a>{{record.publisher}}</a></td>
+        <td>{{record.publisher.username}}</td>
         <td>{{record.score}}</td>
         <td>{{record.pub_date}}</td>
     </tr>
     {%endfor%}
 </table>
+{% endblock %}
 
-<a href="{%url 'rank:submit_page' rank_id%}"> SUBMIT</a>
-</body>
-</html>
+{% block content2 %}
+<br/>
+{% if rank.state == 'open' %}
+    <div id="subscribe">
+
+    <h3>Submit your results here.</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p class="subscribe-input">
+            <input type="file" name="file" size="20" value="">
+            <input type="submit" value="Submit" name="Submit">
+        </p>
+    </form>
+    </div>
+{% else %}
+    <h3 style="display:block;"> Rank is closed! </h3>
+{% endif %}
+{% endblock content2%}

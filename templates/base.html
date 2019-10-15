@@ -1,0 +1,87 @@
+<!--
+Theme by: WebThemez.com
+-->
+<!DOCTYPE HTML>
+<!--[if lt IE 7 ]> <html lang="en" class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]>	<html lang="en" class="ie ie7"> <![endif]-->
+<!--[if IE 8 ]>	<html lang="en" class="ie ie8"> <![endif]-->
+<!--[if IE 9 ]>	<html lang="en" class="ie ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+{% load static %}
+<meta charset="utf-8">
+<title>HTML5 Responsive coming soon page - Fidget</title>
+<meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:regular,bold">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css'%} ">
+<link href="{%static 'et-line-font/style.css'%}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css'%} ">
+    {% block head%}{% endblock %}
+</head>
+
+<body id="home">
+
+<nav class="navbar navbar-default navbar-fixed-top" style="
+            background: url(../static/images/bg.jpg) top left repeat;
+
+            ">
+    <div class="container-fluid">
+        <div class="navbar-header" >
+            <a class="navbar-brand" href="{%url 'home:home_page'%}"
+            style="color:#FFF;">
+                首页
+            </a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="{%url 'rank:dashboard'%}"
+            style="color:#FFF;">
+                天梯
+            </a></li>
+            <li><a href="#"
+            style="color:#FFF;">
+                游乐场
+            </a></li>
+        </ul>
+        {% if request.user.is_authenticated%}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'logout' %}"
+                style="color:#FFF;">
+                    注销
+                </a></li>
+            </ul>
+            <ul class="nav navbar-text navbar-right"
+                style="color:#FFF;margin-right:18px;font-size:15px;">
+                Hello! {{user.username}}
+            </ul>
+        {% else %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'login' %}"
+                style="color:#FFF;">
+                    登录
+                </a></li>
+                <li><a href="{% url 'register' %}"
+                style="color:#FFF;">
+                    注册
+                </a></li>
+            </ul>
+        {% endif %}
+        {% block guide %}{% endblock %}
+    </div>
+</nav>
+
+<section class="main">
+    {% block content %}{% endblock %}
+</section>
+
+
+{% block content2 %}{% endblock %}
+
+<br/>
+<span class="tempBy">Powered by: SSS-DS/DL</span>
+<!--Scripts-->
+<script type="text/javascript" src="{% static  'js/jquery-1.9.1.min.js'%}"></script>
+<script type="text/javascript" src="{% static  'js/global.js'%} "></script>
+
+</body>
+</html>

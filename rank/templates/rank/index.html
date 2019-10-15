@@ -1,29 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a href="{%url 'home:home_page'%}">sss</a>
-<hr/>
-<h>Catalog</h>
+{% extends 'base.html' %}
+{% load static %}
 
-<table>
+
+{% block guide%}
+
+{% endblock%}
+
+{% block content%}
+<link rel="stylesheet" type="text/css" href="{%static 'rank/css/styles.css'%}">
+
+<h2 style="text-align:center;"> Rank List</h2>
+
+<table class="table table-hover">
     <tr>
-        <th>Project Name</th>
-        <th>pub date</th>
-        <th>submission</th>
-        <th>state</th>
+        <th>Rank Name</th>
+        <th>Pub date</th>
+        <th>Submission</th>
+        <th>State</th>
     </tr>
     {%for rank in rank_list%}
-    <tr>
-        <td><a href="/rank/{{rank.id}}">{{rank.title}}</a></td>
+    <tr onclick="location.href='/rank/{{rank.id}}'">
+        <td>{{rank.title}}</td>
         <td>{{rank.pub_date}}</td>
         <td>{{rank.submission}}</td>
         <td>{{rank.state}}</td>
     </tr>
     {%endfor%}
 </table>
-</body>
-</html>
+{% endblock %}
