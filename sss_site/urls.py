@@ -26,6 +26,7 @@ urlpatterns = [
     re_path(r'^user/(?P<pk>\d+)/pwd_change/$', views.pwd_change, name='pwd_change'),
     re_path(r"^logout/$", views.logout, name='logout'),
     path('admin/', admin.site.urls),
+    path('repo/', include(('repo.urls', 'repo'), namespace='repo')),
     path('home/', include(('home.urls', 'home'), namespace='home')),
     path('rank/', include(('rank.urls', 'rank'), namespace='rank')),
     path('', RedirectView.as_view(url='home/')),

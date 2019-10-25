@@ -50,11 +50,13 @@ def register(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password2']
             student_number = form.cleaned_data['student_number']
+            email = form.cleaned_data['email']
+            group_name = {1:'DS',2:'AZ',3:'YX',4:'WA'}[int(form.cleaned_data['group_name'])]
             # 使用内置User自带create_user方法创建用户，不需要使用save()
-            user = User.objects.create_user(username=username, password=password)
+            user = User.objects.create_user(username=username, password=password,email=email)
 
             # 如果直接使用objects.create()方法后不需要使用save()
-            user_profile = UserProfile(user=user, student_number=student_number)
+            user_profile = UserProfile(user=user, student_number=student_number,group_name=group_name)
             user_profile.save()
 
             return HttpResponseRedirect("/login/")

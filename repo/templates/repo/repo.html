@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+
+<link rel="stylesheet" type="text/css" href="{%static 'repo/css/styles.css'%}">
+<h2 style="text-align:center;">仓库</h2>
+{%if message%}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+{%endif%}
+
+<table class="table">
+    <tr>
+        <th>File</th>
+        <th>Size</th>
+        <th>Publisher</th>
+        <th>Pub time</th>
+        <th></th>
+    </tr>
+    {%for file in file_list%}
+    <tr>
+        <td>{{file.file_name}}</td>
+        <td>{{file.size}}</td>
+        <td>{{file.publisher.username}}</td>
+        <td>{{file.pub_date}}</td>
+        <td>
+            <a href="{% url 'repo:download' file.id %}" style="float:left;">下载</a>
+            {% if request.user.is_authenticated %}
+            {% if request.user.is_superuser %}
+            <a href="{% url 'repo:remove' file.id %}" style="float:right;">删除</a>
+            {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+    {%endfor%}
+</table>
+{% endblock %}
+
+{% block content2 %}
+<br/>
+{% if request.user.is_authenticated %}
+    {% if request.user.is_superuser %}
+        <div id="subscribe">
+
+        <h3>Upload your file here.</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p class="subscribe-input">
+                <input type="file" name="file" size="20" value="">
+                <input type="submit" value="Upload" name="Submit">
+            </p>
+        </form>
+        </div>
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

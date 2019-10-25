@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import UserProfile
 import re
 
 
@@ -13,28 +14,29 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(label='密码', widget=forms.PasswordInput)
     password2 = forms.CharField(label='重输', widget=forms.PasswordInput)
     student_number = forms.CharField(label='学号', max_length=9)
-
+    group_name = forms.ChoiceField(label='组别', initial=0 ,choices=((0,'-'),(1,'DS/DL组'),(2,'安卓'),(3,'游戏'),(4,'网安')))
+    email = forms.EmailField(label='邮箱', widget=forms.EmailInput)
     # user clean methods to define custom validation rules
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if len(username) < 3:
-            raise forms.ValidationError("your username must be at least 3 characters log")
+            raise forms.ValidationError("Your username must be at least 3 characters log")
         elif len(username) > 20:
-            raise forms.ValidationError("your username is too long")
+            raise forms.ValidationError("Your username is too long")
         else:
             filter_result = User.objects.filter(username__exact=username)
             if len(filter_result) > 0:
-                raise forms.ValidationError('your username already exists')
+                raise forms.ValidationError('Your username already exists')
         return username
 
 
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
         if len(password1) < 3:
-            raise forms.ValidationError("your password is too short")
+            raise forms.ValidationError("Your password is too short")
         elif len(password1) > 20:
-            raise forms.ValidationError("your password is too long")
+            raise forms.ValidationError("Your password is too long")
 
         return password1
 
@@ -46,7 +48,13 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError('Password mismatch Please enter again')
 
         return password2
+    def clean_group_name(self):
+        gn = self.cleaned_data.get('group_name')
 
+        if gn=='0':
+            raise forms.ValidationError('Group not know')
+
+        return gn
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='用户', max_length=50)
@@ -59,7 +67,7 @@ class LoginForm(forms.Form):
         if email_check(username):
             filter_result = User.objects.filter(email__exact=username)
             if not filter_result:
-                raise forms.ValidationError('This emial does not exist')
+                raise forms.ValidationError('This email does not exist')
         else:
             filter_result = User.objects.filter(username__exact=username)
             if not filter_result:
