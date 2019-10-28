@@ -25,7 +25,7 @@ SECRET_KEY = 'q48_2k*--0g3-h)u2*(4g03+kunw-qnf0j^rzlbi1-x68ibm_a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cippus-sss.com','www.cippus-sss.com']
 
 
 # Application definition
@@ -88,7 +88,21 @@ DATABASES = {
         'TEST_CHARSET':'utf-8',
     }
 }
+''' on server
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sss_ch',
+        'USER': 'root',
+        'PASSWORD': 'cippus-sss',
+        'HOST': 'localhost',
+        'PORT': 3306,
+        'TEST_CHARSET':'utf-8',
+    }
+}
 
+
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
