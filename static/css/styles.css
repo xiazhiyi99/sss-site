@@ -125,7 +125,7 @@ padding-top: 50px
 }
 .logo{width: auto;margin: 0 auto;padding: 16px;border-radius: 180px;padding-bottom: 80px;}
 .logo h1{color: #ffffff;font-weight:600;}
-.logo img {width: 60px;height: 60px;text-align: center;display: block;margin: 0 auto 10px;}
+.logo img {text-align: center;display: block;margin: 0 auto 10px;}
 .wrapper {
 margin: 0 auto;
 position: relative;

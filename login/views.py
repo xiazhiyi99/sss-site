@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from .MyForms import RegistrationForm, LoginForm, ProfileForm, PwdChangeForm
-from .models import UserProfile
+from .models import *
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib import auth
@@ -11,9 +11,11 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 @login_required
-def profile(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    return render(request, 'login/profile.html', {'user': user})
+def profile(request):
+    user = User.objects.get(pk=request.user.id)
+    userProfile = UserProfile.objects.get(user=user)
+
+    return render(request, 'login/profile.html',{'userProfile':userProfile})
 
 
 @login_required
